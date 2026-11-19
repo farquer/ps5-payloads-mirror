@@ -48,6 +48,21 @@
       "icon_key": "fdd4fa6405d1bd1c9bfea604f80d0d59396a95c5ca0de2144ce94f4af54c5967"
     },
     {
+      "name": "TITAN-CORE",
+      "filename": "TITAN-CORE_v1.0.0.elf",
+      "url": "https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/TITAN-CORE_v1.0.0.elf",
+      "source": "https://github.com/devchmod/TITAN-CORE/releases",
+      "source_direct": "https://github.com/devchmod/TITAN-CORE/releases/download/v1.0.0/TITAN-CORE-v1.0.elf",
+      "asset_pattern": "\\.elf$",
+      "description": "带原生 FPKG 引擎、外置硬盘安装和实时诊断的 PS5 游戏工作区。",
+      "firmware": "未声明",
+      "last_update": "2026-11-16",
+      "version": "v1.0.0",
+      "category": "Utilities & Tools",
+      "checksum": "50f074700fc4f427ae87fb2cb986ad07d633ef01799077953817a6ffded7f91d",
+      "icon_key": "3b1755cd01193c8fc83a1e5bf388ba8f785b1f4b675b73a115964971e70a12db"
+    },
+    {
       "name": "PrefBar",
       "filename": "PrefBar_v0.3.0.elf",
       "url": "https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/PrefBar_v0.3.0.elf",
