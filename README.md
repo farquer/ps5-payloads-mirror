@@ -4,7 +4,13 @@
 
 Fork 自 https://github.com/itsPLK/ps5-payloads-mirror. 
 
-### 本仓库不含 itsPLK/ps5-payloads-mirror 中的 payload，可以在 plm 中将本仓库以多源方式添加.
+---
+
+## 使用方式
+
+本仓库不含 itsPLK/ps5-payloads-mirror 中的 payload，可以在 payload manager 中将本仓库以多源方式添加.
+
+---
 
 ## 可用 Payload
 
