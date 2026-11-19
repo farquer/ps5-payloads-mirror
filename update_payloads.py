@@ -146,16 +146,6 @@ def update_readme():
 <!-- PAYLOADS_START -->
 {table_content}
 <!-- PAYLOADS_END -->
-
-## 反馈与建议
-
-如果要增加 payload，或某个 payload 有重要问题，请到 [Issues](https://github.com/{MIRROR_OWNER}/{MIRROR_REPO}/issues/new) 提交。
-
-## 目录格式与图标
-
-`payloads.json` 保持旧的纯数组格式，兼容原有工具。
-`payloads_v2.json` 是新目录，包含仓库信息（`name` 和 `icons_url: "icons.json"`）。
-每条 payload 用 `icon_key` 指向图标；`icons.json` 的 `icons` 对象把这个 key 映射成 base64 的 PNG、JPEG 或 SVG data URI。key 是内容哈希，相同图片只存一份。图片长度低于 12,288 个字符，以兼容 PS5 WebKit。`set_icon.py` 和 `add_payload.py` 会先写入图片，再保存目录引用。更新 payload 版本时会保留这些引用。Payload Manager 会把图标目录单独缓存七天。README 表格里的图标来自 `readme-icons/`。
 """
 
     if not os.path.exists(readme_path):
