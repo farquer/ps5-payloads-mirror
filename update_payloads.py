@@ -141,6 +141,16 @@ def update_readme():
 
 这个仓库自动镜像常用的 PlayStation 5 payload。
 
+Fork 自 https://github.com/itsPLK/ps5-payloads-mirror. 
+
+---
+
+## 使用方式
+
+本仓库不含 itsPLK/ps5-payloads-mirror 中的 payload，可以在 payload manager 中将本仓库以多源方式添加.
+
+---
+
 ## 可用 Payload
 
 <!-- PAYLOADS_START -->
