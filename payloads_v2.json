@@ -93,6 +93,21 @@
       "icon_key": "738e042c988663b4b421f5b55db1a7bebd075b8436d06021a861ed25d51467a1"
     },
     {
+      "name": "any-pad",
+      "filename": "any-pad_v0.9.1-beta.elf",
+      "url": "https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/any-pad_v0.9.1-beta.elf",
+      "source": "https://github.com/elmonomalvad0/any-pad/releases",
+      "source_direct": "https://github.com/elmonomalvad0/any-pad/releases/download/v0.9.1-beta/AnyPad-PS5-0.9.1-beta.elf",
+      "asset_pattern": "\\.elf$",
+      "description": "通过主机自带蓝牙，把其他平台手柄当作虚拟 DualSense 在已越狱 PS5 上使用。",
+      "firmware": "10.01 已测试",
+      "last_update": "2026-10-12",
+      "version": "v0.9.1-beta",
+      "category": "Utilities & Tools",
+      "checksum": "358a3b75c1c74b813a5eae3ceef9000c9913321a0f88261d969dd89f5373a1c1",
+      "icon_key": "3f173e67657611239a7640b73c77e5955d4694494c5bbce2a7d5211ddad3b068"
+    },
+    {
       "name": "OmniPad-PS5",
       "filename": "OmniPad-PS5_v1.0.4-hotfix1.elf",
       "url": "https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/OmniPad-PS5_v1.0.4-hotfix1.elf",
