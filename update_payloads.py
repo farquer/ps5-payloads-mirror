@@ -1,4 +1,4 @@
-from catalog import save_catalog, load_catalog
+from catalog import save_catalog, load_catalog, payload_icon
 import json
 import subprocess
 import re
@@ -6,6 +6,7 @@ import hashlib
 import urllib.request
 import sys
 import os
+import base64
 import zipfile
 import tempfile
 import shutil
@@ -84,7 +85,7 @@ def calculate_checksum(filepath):
         return None
 
 def reorder_item(item):
-    order = ["name", "filename", "url", "source", "source_direct", "asset_pattern", "extract_file", "description", "last_update", "version", "category", "checksum", "icon_key"]
+    order = ["name", "filename", "url", "source", "source_direct", "asset_pattern", "extract_file", "description", "firmware", "last_update", "version", "category", "checksum", "icon_key"]
     new_item = {}
     for key in order:
         if key in item:
@@ -94,6 +95,21 @@ def reorder_item(item):
             new_item[key] = item[key]
     return new_item
 
+def readme_icon(item):
+    data = payload_icon(item)
+    if not data or "," not in data:
+        return ""
+    header, encoded = data.split(",", 1)
+    ext = {"png": "png", "jpeg": "jpg", "svg+xml": "svg"}.get(header.split("/")[-1].split(";")[0])
+    if not ext:
+        return ""
+    directory = os.path.join(os.path.dirname(os.path.abspath(JSON_FILE)) or ".", "readme-icons")
+    os.makedirs(directory, exist_ok=True)
+    filename = re.sub(r"[^A-Za-z0-9._-]", "_", item.get("name", "icon")) + "." + ext
+    with open(os.path.join(directory, filename), "wb") as icon_file:
+        icon_file.write(base64.b64decode(encoded))
+    return f'<img src="readme-icons/{filename}" width="36" alt="">'
+
 def update_readme():
     try:
         payloads = load_catalog()
@@ -102,39 +118,44 @@ def update_readme():
         return
 
     table_rows = [
-        "| Payload | Version | Description | Last Updated | Source | Download |",
-        "| --- | --- | --- | --- | --- | --- |"
+        "| 图标 | 名称 | 版本 | 说明 | 支持固件 | 最近更新 | 源码 | 下载 |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- |"
     ]
     
     for item in payloads:
         name = item.get("name", "Unknown")
         version = item.get("version", "Unknown")
-        description = item.get("description", "")
+        description = item.get("description", "") or "未提供说明"
+        firmware = item.get("firmware") or "未声明"
         last_update = item.get("last_update", "Unknown")
         source = item.get("source", "#")
         url = item.get("url", "#")
-        
-        if not description:
-            description = "No description provided."
-            
-        table_rows.append(f"| **{name}** | `{version}` | {description} | `{last_update}` | [Source]({source}) | [Download]({url}) |")
+        table_rows.append(
+            f"| {readme_icon(item)} | **{name}** | `{version}` | {description} | {firmware} | `{last_update}` | [源码]({source}) | [下载]({url}) |"
+        )
         
     table_content = "\n".join(table_rows)
     readme_path = "README.md"
     
-    template = f"""# PS5 Payloads Mirror
+    template = f"""# PS5 Payloads 镜像
 
-This repository contains an automated mirror of useful payloads for the PlayStation 5.
+这个仓库自动镜像常用的 PlayStation 5 payload。
 
-## Available Payloads
+## 可用 Payload
 
 <!-- PAYLOADS_START -->
 {table_content}
 <!-- PAYLOADS_END -->
 
-## Support & Suggestions
+## 反馈与建议
 
-If you have suggestions for a new payload to be added or if there's an important issue with some payload, please report them in the [Issues section](https://github.com/{MIRROR_OWNER}/{MIRROR_REPO}/issues/new).
+如果要增加 payload，或某个 payload 有重要问题，请到 [Issues](https://github.com/{MIRROR_OWNER}/{MIRROR_REPO}/issues/new) 提交。
+
+## 目录格式与图标
+
+`payloads.json` 保持旧的纯数组格式，兼容原有工具。
+`payloads_v2.json` 是新目录，包含仓库信息（`name` 和 `icons_url: "icons.json"`）。
+每条 payload 用 `icon_key` 指向图标；`icons.json` 的 `icons` 对象把这个 key 映射成 base64 的 PNG、JPEG 或 SVG data URI。key 是内容哈希，相同图片只存一份。图片长度低于 12,288 个字符，以兼容 PS5 WebKit。`set_icon.py` 和 `add_payload.py` 会先写入图片，再保存目录引用。更新 payload 版本时会保留这些引用。Payload Manager 会把图标目录单独缓存七天。README 表格里的图标来自 `readme-icons/`。
 """
 
     if not os.path.exists(readme_path):
