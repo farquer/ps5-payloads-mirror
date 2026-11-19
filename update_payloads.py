@@ -13,7 +13,9 @@ from datetime import datetime
 
 JSON_FILE = "payloads.json"
 PAYLOADS_DIR = "payloads"
-BASE_URL = "https://github.com/itsPLK/ps5-payloads-mirror/releases/download/payloads-mirror"
+_slug = os.environ.get("GITHUB_REPOSITORY", "farquer/ps5-payloads-mirror")
+MIRROR_OWNER, MIRROR_REPO = _slug.split("/", 1)
+BASE_URL = f"https://github.com/{MIRROR_OWNER}/{MIRROR_REPO}/releases/download/payloads-mirror"
 STATS_FILE = "download_stats.json"
 
 def get_repo_info(url):
@@ -132,7 +134,7 @@ This repository contains an automated mirror of useful payloads for the PlayStat
 
 ## Support & Suggestions
 
-If you have suggestions for a new payload to be added or if there's an important issue with some payload, please report them in the [Issues section](https://github.com/itsPLK/ps5-payloads-mirror/issues/new).
+If you have suggestions for a new payload to be added or if there's an important issue with some payload, please report them in the [Issues section](https://github.com/{MIRROR_OWNER}/{MIRROR_REPO}/issues/new).
 """
 
     if not os.path.exists(readme_path):
@@ -159,8 +161,8 @@ If you have suggestions for a new payload to be added or if there's an important
 
 
 def get_mirror_assets():
-    owner = "itsPLK"
-    repo = "ps5-payloads-mirror"
+    owner = MIRROR_OWNER
+    repo = MIRROR_REPO
     try:
         cmd = ["gh", "api", f"repos/{owner}/{repo}/releases/tags/payloads-mirror"]
         result = subprocess.run(cmd, capture_output=True, text=True)
@@ -173,8 +175,8 @@ def get_mirror_assets():
 
 def cleanup_and_record_stats():
     print("\nChecking for stale release assets to record stats and clean up...")
-    owner = "itsPLK"
-    repo = "ps5-payloads-mirror"
+    owner = MIRROR_OWNER
+    repo = MIRROR_REPO
     
     try:
         payloads = load_catalog()

@@ -10,12 +10,11 @@ import zipfile
 import tempfile
 import shutil
 from datetime import datetime
-from update_payloads import update_readme
+from update_payloads import update_readme, BASE_URL
 from icon_utils import convert_image_to_data_uri
 
 JSON_FILE = "payloads.json"
 PAYLOADS_DIR = "payloads"
-BASE_URL = "https://github.com/itsPLK/ps5-payloads-mirror/releases/download/payloads-mirror"
 
 def get_repo_info(url):
     match = re.search(r"https?://([^/]+)/([^/]+)/([^/]+)", url)
