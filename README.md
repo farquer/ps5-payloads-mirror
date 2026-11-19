@@ -12,6 +12,11 @@ Fork 自 https://github.com/itsPLK/ps5-payloads-mirror.
 
 ---
 
+## 注意
+未经验证，需要阅读 payload 项目 readme, 风险自行承担
+
+---
+
 ## 可用 Payload
 
 <!-- PAYLOADS_START -->
