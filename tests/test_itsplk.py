@@ -2,6 +2,28 @@ import unittest
 import update_itsplk
 
 class ItsplkTests(unittest.TestCase):
+    def test_project_page_fills_description_and_firmware(self):
+        item = {"name": "ps5upload", "description": "catalog", "source": "https://github.com/phantomptr/ps5upload/releases"}
+        readme = '<img alt="firmware" src="https://img.shields.io/badge/PS5_firmware-1.00_–_14.10_supported_•_5.10,_9.60_&_13.60_tested-brightgreen" />'
+        updated = update_itsplk.with_project_page(item, readme)
+        self.assertEqual(updated["description"], update_itsplk.HOMEPAGE_SUMMARY["ps5upload"])
+        self.assertEqual(updated["firmware"], "1.00–14.10（5.10、9.60、13.60 已测试）")
+        self.assertEqual(item["description"], "catalog")
+
+    def test_firmware_reads_homepage_support_statements(self):
+        cases = [
+            ("Supports firmwares <b>6.00&ndash;13.60</b>.", "6.00–13.60"),
+            ("A PS5 able to run payloads (Jailbroken 1.00 - 13.60).", "1.00–13.60"),
+            ("Tested on firmware **11.60**.", "11.60 已测试"),
+            ("**Compatibility:** Supports all Jailbroken PS5 firmwares running **[Kstuff-lite v1.07+](https://github.com/EchoStretch/kstuff-lite)**.", "全部已越狱固件（需 kstuff-lite v1.07+）"),
+            ("FW  4.03 about 20 MB/s", "未声明"),
+        ]
+        for text, expected in cases:
+            self.assertEqual(update_itsplk.firmware_from_readme(text), expected, text)
+        self.assertIsNone(update_itsplk.github_repo("https://git.etawen.dev/earthonion/garlic-savemgr/releases"))
+        with self.assertRaises(ValueError):
+            update_itsplk.fetch_text("https://example.com/README.md")
+
     def test_fetch_rejects_unexpected_url(self):
         with self.assertRaises(ValueError):
             update_itsplk.fetch_json("https://example.com/payloads_v2.json")
