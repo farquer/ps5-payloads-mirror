@@ -1,4 +1,4 @@
-# PS5 Payloads 镜像
+# PS5 Payloads 镜像源
 
 这个仓库自动镜像常用的 PlayStation 5 payload。
 
