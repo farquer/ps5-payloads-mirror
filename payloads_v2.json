@@ -3,6 +3,21 @@
   "icons_url": "icons.json",
   "payloads": [
     {
+      "name": "orbit-store-ps5",
+      "filename": "orbit-store-ps5_v1.9.5.elf",
+      "url": "https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/orbit-store-ps5_v1.9.5.elf",
+      "source": "https://github.com/saawant12/orbit-store-ps5/releases",
+      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.9.5/orbit_store.elf",
+      "asset_pattern": "orbit_store\\.elf$",
+      "description": "在 PS5 上选择游戏来源和格式，直接下载到主机或外接存储。",
+      "firmware": "未声明",
+      "last_update": "2026-11-19",
+      "version": "v1.9.5",
+      "category": "Utilities & Tools",
+      "checksum": "95da321dcfa054fe355e1d820e50163b3ee4da1410a9a2aa72213d7626b2d3b9",
+      "icon_key": "fdd4fa6405d1bd1c9bfea604f80d0d59396a95c5ca0de2144ce94f4af54c5967"
+    },
+    {
       "name": "kraken-mount",
       "filename": "kraken-mount_v0.3.0.elf",
       "url": "https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/kraken-mount_v0.3.0.elf",
@@ -31,21 +46,6 @@
       "category": "Utilities & Tools",
       "checksum": "476aa8c1b14d001108f78efec185347310eda969e0a4d75aeb4c377b07e1584f",
       "icon_key": "d5f53c53e211c9b75c1aabd1d0e90ccd64081c98084a51d7cb1349d706bd9e1c"
-    },
-    {
-      "name": "orbit-store-ps5",
-      "filename": "orbit-store-ps5_v1.9.2.elf",
-      "url": "https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/orbit-store-ps5_v1.9.2.elf",
-      "source": "https://github.com/saawant12/orbit-store-ps5/releases",
-      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.9.2/orbit_store.elf",
-      "asset_pattern": "orbit_store\\.elf$",
-      "description": "在 PS5 上选择游戏来源和格式，直接下载到主机或外接存储。",
-      "firmware": "未声明",
-      "last_update": "2026-11-16",
-      "version": "v1.9.2",
-      "category": "Utilities & Tools",
-      "checksum": "5fe4892269ebe940731d0236cd1bbca8d827e7690676f7b7af32fb9c5a775f5b",
-      "icon_key": "fdd4fa6405d1bd1c9bfea604f80d0d59396a95c5ca0de2144ce94f4af54c5967"
     },
     {
       "name": "TITAN-CORE",
