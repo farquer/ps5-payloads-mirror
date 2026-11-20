@@ -1,4 +1,4 @@
-from catalog import save_catalog, load_catalog, payload_icon
+from catalog import save_catalog, load_catalog, payload_icon, GH_PROXY
 import json
 import subprocess
 import re
@@ -17,6 +17,8 @@ PAYLOADS_DIR = "payloads"
 _slug = os.environ.get("GITHUB_REPOSITORY", "farquer/ps5-payloads-mirror")
 MIRROR_OWNER, MIRROR_REPO = _slug.split("/", 1)
 BASE_URL = f"https://github.com/{MIRROR_OWNER}/{MIRROR_REPO}/releases/download/payloads-mirror"
+V2_URL = f"https://raw.githubusercontent.com/{MIRROR_OWNER}/{MIRROR_REPO}/main/payloads_v2.json"
+GHPROXY_URL = f"{GH_PROXY}https://raw.githubusercontent.com/{MIRROR_OWNER}/{MIRROR_REPO}/main/payloads_ghproxy.json"
 STATS_FILE = "download_stats.json"
 
 def get_repo_info(url):
@@ -148,6 +150,10 @@ Fork 自 https://github.com/itsPLK/ps5-payloads-mirror.
 ## 使用方式
 
 本仓库不含 itsPLK/ps5-payloads-mirror 中的 payload，可以在 payload manager 中将本仓库以多源方式添加.
+
+payloads_v2.json：{V2_URL}
+
+payloads_ghproxy.json：{GHPROXY_URL}
 
 ---
 

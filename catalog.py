@@ -8,7 +8,9 @@ from pathlib import Path
 
 CATALOG = Path('payloads.json')
 CATALOG_V2 = Path('payloads_v2.json')
+CATALOG_GHPROXY = Path('payloads_ghproxy.json')
 ICONS = Path('icons.json')
+GH_PROXY = 'https://gh-proxy.farquer.eu.org/'
 
 def atomic_json(path, value):
     path = Path(path)
@@ -32,13 +34,31 @@ def load_catalog():
         return data.get('payloads', [])
     return data
 
+def rewrite_github_url(url):
+    if not isinstance(url, str) or url.startswith(GH_PROXY):
+        return url
+    if url.startswith(('http://', 'https://')) and ('github.com' in url or 'githubusercontent.com' in url):
+        return GH_PROXY + url
+    return url
+
+def rewrite_github_values(value):
+    if isinstance(value, str):
+        return rewrite_github_url(value)
+    if isinstance(value, list):
+        return [rewrite_github_values(item) for item in value]
+    if isinstance(value, dict):
+        return {key: rewrite_github_values(item) for key, item in value.items()}
+    return value
+
 def save_catalog(payloads):
     atomic_json(CATALOG, payloads)
-    atomic_json(CATALOG_V2, {
+    wrapped = {
         'name': 'PS5 Payloads',
         'icons_url': 'icons.json',
         'payloads': payloads,
-    })
+    }
+    atomic_json(CATALOG_V2, wrapped)
+    atomic_json(CATALOG_GHPROXY, rewrite_github_values(wrapped))
 
 def load_icons():
     if not ICONS.exists():

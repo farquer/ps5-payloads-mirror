@@ -44,6 +44,24 @@ class CatalogTests(unittest.TestCase):
             with self.assertRaises(ValueError):catalog.assign_icon(entry,image)
             self.assertEqual(entry, {'name':'One'})
             self.assertFalse(Path('icons.json').exists())
+    def test_ghproxy_catalog_matches_v2_with_github_urls_prefixed(self):
+        payloads = [{
+            'name': 'Demo',
+            'filename': 'Demo_v1.elf',
+            'url': 'https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/Demo_v1.elf',
+            'source': 'https://github.com/someone/demo/releases',
+            'note': 'https://example.com/keep',
+        }]
+        catalog.save_catalog(payloads)
+        v2 = json.loads(Path('payloads_v2.json').read_text())
+        proxied = json.loads(Path('payloads_ghproxy.json').read_text())
+        self.assertEqual(v2['payloads'][0]['url'], payloads[0]['url'])
+        self.assertEqual(proxied['name'], v2['name'])
+        self.assertEqual(proxied['icons_url'], 'icons.json')
+        item = proxied['payloads'][0]
+        self.assertEqual(item['url'], catalog.GH_PROXY + payloads[0]['url'])
+        self.assertEqual(item['source'], catalog.GH_PROXY + payloads[0]['source'])
+        self.assertEqual(item['note'], 'https://example.com/keep')
     def test_load_catalog_handles_wrapped_and_bare_formats(self):
         Path('payloads.json').write_text(json.dumps([{'name': 'One'}]))
         self.assertEqual(catalog.load_catalog(), [{'name': 'One'}])
