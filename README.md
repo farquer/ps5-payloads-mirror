@@ -10,9 +10,9 @@ Fork 自 https://github.com/itsPLK/ps5-payloads-mirror.
 
 本仓库不含 itsPLK/ps5-payloads-mirror 中的 payload，可以在 payload manager 中将本仓库以多源方式添加.
 
-payloads_v2.json：https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/payloads_v2.json
+能直连 github 用 ：https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/payloads_v2.json
 
-payloads_ghproxy.json：https://gh-proxy.farquer.eu.org/https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/payloads_ghproxy.json
+需要 gh-proxy 加速用：https://gh-proxy.farquer.eu.org/https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/payloads_ghproxy.json
 
 ---
 
