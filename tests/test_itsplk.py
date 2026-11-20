@@ -45,7 +45,9 @@ class ItsplkTests(unittest.TestCase):
         self.assertIn("line two", table)
         self.assertIn("| 未声明 |", table)
         self.assertIn("readme-icons-itsplk/Demo_Name.png", table)
-        self.assertIn("gh-proxy.farquer.eu.org/https://github.com/", table)
+        self.assertNotIn("gh-proxy.farquer.eu.org", table)
+        self.assertIn("https://github.com/someone/demo/releases", table)
+        self.assertIn("https://github.com/itsPLK/ps5-payloads-mirror/releases/download/payloads-mirror/Demo.elf", table)
         self.assertEqual(files["Demo_Name.png"], b"hello")
 
     def test_readme_update_keeps_existing_table_and_usage(self):

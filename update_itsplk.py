@@ -103,6 +103,12 @@ def cell(value, fallback):
     return text.replace("\\", "\\\\").replace("|", "\\|").replace("\r", " ").replace("\n", " ").strip()
 
 
+def direct_url(url):
+    if isinstance(url, str) and url.startswith(GH_PROXY):
+        return url[len(GH_PROXY):]
+    return url
+
+
 def github_repo(source):
     if not isinstance(source, str):
         return None
@@ -274,8 +280,8 @@ def render_table(payloads, icons):
         markup, icon_file = icon_markup(item, icons)
         if icon_file:
             files[icon_file[0]] = icon_file[1]
-        source = item.get("source") or "#"
-        url = item.get("url") or "#"
+        source = direct_url(item.get("source")) or "#"
+        url = direct_url(item.get("url")) or "#"
         rows.append(
             "| {icon} | **{name}** | `{version}` | {description} | {firmware} | `{updated}` | [源码]({source}) | [下载]({url}) |".format(
                 icon=markup,
