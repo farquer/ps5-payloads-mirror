@@ -1,6 +1,6 @@
 # PS5 Payloads 镜像源
 
-这个仓库自动镜像常用的 PlayStation 5 payload。
+自动镜像常用的  PlayStation 5 payload，每日定时更新，plmgr 能一键安装和识别更新一键更新。
 
 Fork 自 https://github.com/itsPLK/ps5-payloads-mirror. 
 
@@ -8,20 +8,31 @@ Fork 自 https://github.com/itsPLK/ps5-payloads-mirror.
 
 ## 使用方式
 
-本仓库不含 itsPLK/ps5-payloads-mirror 中的 payload，可以在 payload manager 中将本仓库以多源方式添加.
+可以在 payload manager 中将本仓库以多源方式添加.
+
+### 本仓库扩展源
 
 能直连 github 用 ：https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/payloads_v2.json
 
 需要 gh-proxy 加速用：https://gh-proxy.farquer.eu.org/https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/payloads_ghproxy.json
 
+### itsPLK 官方源国内加速
+
+https://gh-proxy.farquer.eu.org/https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/payloads_itsplk_ghproxy.json
+
+（自建 ph-proxy，速度不快可以尝试换  https://cdn.jsdelivr.net/gh 代理）
+
 ---
 
 ## 注意
-未经验证，需要阅读 payload 项目 readme, 风险自行承担
+
+仅搬运和汇总，未经验证，需要阅读 payload 项目 readme, 风险自行承担。
+
+需要联网，但 y2jb 用户务必使用 nanodns 屏蔽 youtube，防止自动更新
 
 ---
 
-## 可用 Payload
+## 扩展源 Payload
 
 <!-- PAYLOADS_START -->
 | 图标 | 名称 | 版本 | 说明 | 支持固件 | 最近更新 | 源码 | 下载 |
@@ -35,3 +46,7 @@ Fork 自 https://github.com/itsPLK/ps5-payloads-mirror.
 | <img src="readme-icons/any-pad.png" width="36" alt=""> | **any-pad** | `v0.9.1-beta` | 通过主机自带蓝牙，把其他平台手柄当作虚拟 DualSense 在已越狱 PS5 上使用。 | 10.01 已测试 | `2026-10-12` | [源码](https://github.com/elmonomalvad0/any-pad/releases) | [下载](https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/any-pad_v0.9.1-beta.elf) |
 | <img src="readme-icons/OmniPad-PS5.jpg" width="36" alt=""> | **OmniPad-PS5** | `v1.0.4-hotfix1` | 让第三方 USB 手柄以虚拟 DualSense 的方式在已越狱 PS5 上使用 | 7.00–13.60 | `2026-10-05` | [源码](https://github.com/diegobarbosaa/OmniPad-PS5/releases) | [下载](https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/OmniPad-PS5_v1.0.4-hotfix1.elf) |
 <!-- PAYLOADS_END -->
+
+---
+
+### itsPLK 官方源
