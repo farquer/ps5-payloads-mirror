@@ -1,0 +1,35 @@
+name: Update itsPLK gh-proxy catalog
+
+on:
+  schedule:
+    - cron: '0 16 * * *' # 北京时间 00:00
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-itsplk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Pull latest README
+        run: git pull --rebase origin main
+
+      - name: Update itsPLK catalog and README
+        run: python update_itsplk.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git add payloads_itsplk_ghproxy.json README.md readme-icons-itsplk
+          git commit -m "Auto-update itsPLK gh-proxy catalog" || echo "No changes to commit"
+          git pull --rebase origin main
+          git push

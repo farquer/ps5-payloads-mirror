@@ -19,6 +19,7 @@ MIRROR_OWNER, MIRROR_REPO = _slug.split("/", 1)
 BASE_URL = f"https://github.com/{MIRROR_OWNER}/{MIRROR_REPO}/releases/download/payloads-mirror"
 V2_URL = f"https://raw.githubusercontent.com/{MIRROR_OWNER}/{MIRROR_REPO}/main/payloads_v2.json"
 GHPROXY_URL = f"{GH_PROXY}https://raw.githubusercontent.com/{MIRROR_OWNER}/{MIRROR_REPO}/main/payloads_ghproxy.json"
+ITSPLK_URL = f"{GH_PROXY}https://raw.githubusercontent.com/{MIRROR_OWNER}/{MIRROR_REPO}/main/payloads_itsplk_ghproxy.json"
 STATS_FILE = "download_stats.json"
 
 def get_repo_info(url):
@@ -139,9 +140,9 @@ def update_readme():
     table_content = "\n".join(table_rows)
     readme_path = "README.md"
     
-    template = f"""# PS5 Payloads 镜像
+    template = f"""# PS5 Payloads 镜像源
 
-这个仓库自动镜像常用的 PlayStation 5 payload。
+自动镜像常用的  PlayStation 5 payload，每日定时更新，plmgr 能一键安装和识别更新一键更新。
 
 Fork 自 https://github.com/itsPLK/ps5-payloads-mirror. 
 
@@ -149,24 +150,45 @@ Fork 自 https://github.com/itsPLK/ps5-payloads-mirror.
 
 ## 使用方式
 
-本仓库不含 itsPLK/ps5-payloads-mirror 中的 payload，可以在 payload manager 中将本仓库以多源方式添加.
+可以在 payload manager 中将本仓库以多源方式添加.
 
-payloads_v2.json：{V2_URL}
+### 本仓库扩展源
 
-payloads_ghproxy.json：{GHPROXY_URL}
+能直连 github 用 ：{V2_URL}
+
+需要 gh-proxy 加速用：{GHPROXY_URL}
+
+### itsPLK 官方源国内加速
+
+{ITSPLK_URL}
+
+（自建 ph-proxy，速度不快可以尝试换  https://cdn.jsdelivr.net/gh 代理）
 
 ---
 
 ## 注意
-未经验证，需要阅读 payload 项目 readme, 风险自行承担
+
+> [!CAUTION]
+> **仅搬运和汇总，未经验证，需要阅读 payload 项目 readme, 风险自行承担。**
+>
+> **需要联网，但 y2jb 用户务必使用 nanodns 屏蔽 youtube，防止自动更新**
 
 ---
 
-## 可用 Payload
+## 扩展源 Payload
 
 <!-- PAYLOADS_START -->
 {table_content}
 <!-- PAYLOADS_END -->
+
+---
+
+## itsPLK 国内加速
+
+基于 https://github.com/itsPLK/ps5-payloads-mirror/blob/main/payloads_v2.json
+
+<!-- ITSPLK_START -->
+<!-- ITSPLK_END -->
 """
 
     if not os.path.exists(readme_path):
