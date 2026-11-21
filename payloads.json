@@ -1,5 +1,20 @@
 [
   {
+    "name": "kraken-mount",
+    "filename": "kraken-mount_v0.3.1.elf",
+    "url": "https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/kraken-mount_v0.3.1.elf",
+    "source": "https://github.com/quer3q/kraken-mount/releases",
+    "source_direct": "https://github.com/quer3q/kraken-mount/releases/download/v0.3.1/kraken-mount.elf",
+    "asset_pattern": "\\.elf$",
+    "description": "从内置 SSD、M.2 和 USB 挂载 PS5 游戏",
+    "firmware": "未声明",
+    "last_update": "2026-11-20",
+    "version": "v0.3.1",
+    "category": "Utilities & Tools",
+    "checksum": "3ec636a6b42ceff61ac7aa47e0ed01a41be851da94cfcf3158811995ea868b27",
+    "icon_key": "eba585ddab285e3fa4772dcb729428a12a859484416c033659732eaed6659cbc"
+  },
+  {
     "name": "orbit-store-ps5",
     "filename": "orbit-store-ps5_v1.9.5.elf",
     "url": "https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/orbit-store-ps5_v1.9.5.elf",
@@ -13,21 +28,6 @@
     "category": "Utilities & Tools",
     "checksum": "95da321dcfa054fe355e1d820e50163b3ee4da1410a9a2aa72213d7626b2d3b9",
     "icon_key": "fdd4fa6405d1bd1c9bfea604f80d0d59396a95c5ca0de2144ce94f4af54c5967"
-  },
-  {
-    "name": "kraken-mount",
-    "filename": "kraken-mount_v0.3.0.elf",
-    "url": "https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/kraken-mount_v0.3.0.elf",
-    "source": "https://github.com/quer3q/kraken-mount/releases",
-    "source_direct": "https://github.com/quer3q/kraken-mount/releases/download/v0.3.0/kraken-mount.elf",
-    "asset_pattern": "\\.elf$",
-    "description": "从内置 SSD、M.2 和 USB 挂载 PS5 游戏",
-    "firmware": "未声明",
-    "last_update": "2026-11-18",
-    "version": "v0.3.0",
-    "category": "Utilities & Tools",
-    "checksum": "092623a204b707b89d0867a0087f9dd1c430eef6a22db497f03b59aaf1297bfe",
-    "icon_key": "eba585ddab285e3fa4772dcb729428a12a859484416c033659732eaed6659cbc"
   },
   {
     "name": "PS5-Cleanup",
