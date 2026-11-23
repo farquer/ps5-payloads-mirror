@@ -1,0 +1,26 @@
+{
+  "PS5-Cleanup": {
+    "asset_pattern": "\\.elf$",
+    "firmware": "10.60–13.60（已测试，含 Slim 和 Pro）"
+  },
+  "kraken-mount": {
+    "asset_pattern": "\\.elf$",
+    "firmware": "未声明"
+  },
+  "TITAN-CORE": {
+    "asset_pattern": "\\.elf$",
+    "firmware": "未声明"
+  },
+  "PrefBar": {
+    "asset_pattern": "\\.elf$",
+    "firmware": "7.XX–13.XX（7.XX 以下未验证）"
+  },
+  "any-pad": {
+    "asset_pattern": "\\.elf$",
+    "firmware": "10.01 已测试"
+  },
+  "OmniPad-PS5": {
+    "asset_pattern": "\\.elf$",
+    "firmware": "7.00–13.60"
+  }
+}

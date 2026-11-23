@@ -1,8 +1,9 @@
-from catalog import save_catalog, load_catalog, payload_icon, GH_PROXY
 import json
 import subprocess
 import re
 import hashlib
+import urllib.error
+import urllib.parse
 import urllib.request
 import sys
 import os
@@ -11,16 +12,23 @@ import zipfile
 import tempfile
 import shutil
 from datetime import datetime
+from pathlib import Path
 
-JSON_FILE = "payloads.json"
-PAYLOADS_DIR = "payloads"
+ROOT = Path(__file__).resolve().parent
+if ROOT.name in ("farquer", "itsPLK"):
+    ROOT = ROOT.parent
+sys.path.insert(0, str(ROOT))
+from catalog import save_catalog, load_catalog, payload_icon
+
+JSON_FILE = str(ROOT / "farquer" / "payloads.json")
+PAYLOADS_DIR = str(ROOT / "farquer" / "elf")
 _slug = os.environ.get("GITHUB_REPOSITORY", "farquer/ps5-payloads-mirror")
 MIRROR_OWNER, MIRROR_REPO = _slug.split("/", 1)
-BASE_URL = f"https://github.com/{MIRROR_OWNER}/{MIRROR_REPO}/releases/download/payloads-mirror"
-V2_URL = f"https://raw.githubusercontent.com/{MIRROR_OWNER}/{MIRROR_REPO}/main/payloads_v2.json"
-GHPROXY_URL = f"{GH_PROXY}https://raw.githubusercontent.com/{MIRROR_OWNER}/{MIRROR_REPO}/main/payloads_ghproxy.json"
-ITSPLK_URL = f"{GH_PROXY}https://raw.githubusercontent.com/{MIRROR_OWNER}/{MIRROR_REPO}/main/payloads_itsplk_ghproxy.json"
-STATS_FILE = "download_stats.json"
+ELF_URL = f"https://raw.githubusercontent.com/{MIRROR_OWNER}/{MIRROR_REPO}/main/farquer/elf"
+V2_URL = f"https://raw.githubusercontent.com/{MIRROR_OWNER}/{MIRROR_REPO}/main/farquer/payloads.json"
+GHPROXY_URL = f"https://cdn.jsdelivr.net/gh/{MIRROR_OWNER}/{MIRROR_REPO}@main/farquer/payloads_ghproxy.json"
+ITSPLK_URL = f"https://cdn.jsdelivr.net/gh/{MIRROR_OWNER}/{MIRROR_REPO}@main/itsPLK/payloads_ghproxy.json"
+STATS_FILE = str(ROOT / "farquer" / "download_stats.json")
 
 def get_repo_info(url):
     # Extract domain, owner and repo from various Git URL formats
@@ -42,17 +50,84 @@ def get_repo_info(url):
         return domain, owner, repo
     return None, None, None
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+def github_latest_from_pages(owner, repo):
+    latest = f"https://github.com/{owner}/{repo}/releases/latest"
+    request = urllib.request.Request(latest, headers={"User-Agent": "ps5-payloads-mirror"})
+    try:
+        urllib.request.build_opener(_NoRedirect).open(request, timeout=30).read(1)
+        return None
+    except urllib.error.HTTPError as exc:
+        if exc.code not in (301, 302, 303, 307, 308):
+            raise
+        location = exc.headers.get("Location") or ""
+    matched = re.fullmatch(
+        rf"https://github\.com/{re.escape(owner)}/{re.escape(repo)}/releases/tag/([^/?#]+)",
+        location,
+    )
+    if matched:
+        tag = urllib.parse.unquote(matched.group(1))
+    elif location == f"https://github.com/{owner}/{repo}/releases":
+        listing = urllib.request.Request(location, headers={"User-Agent": "ps5-payloads-mirror"})
+        with urllib.request.urlopen(listing, timeout=30) as response:
+            page = response.read(1_000_000).decode("utf-8", "replace")
+        found = re.search(rf"/{re.escape(owner)}/{re.escape(repo)}/releases/tag/([^\"#?]+)", page)
+        tag = urllib.parse.unquote(found.group(1)) if found else ""
+    else:
+        return None
+    if not re.fullmatch(r"[A-Za-z0-9._+-]+", tag):
+        return None
+    quoted = urllib.parse.quote(tag)
+    page = urllib.request.Request(
+        f"https://github.com/{owner}/{repo}/releases/tag/{quoted}",
+        headers={"User-Agent": "ps5-payloads-mirror"},
+    )
+    with urllib.request.urlopen(page, timeout=30) as response:
+        html = response.read(1_000_000).decode("utf-8", "replace")
+    published = re.search(r'datetime="(\d{4}-\d{2}-\d{2}T[^"]+)"', html)
+    assets_request = urllib.request.Request(
+        f"https://github.com/{owner}/{repo}/releases/expanded_assets/{quoted}",
+        headers={"User-Agent": "ps5-payloads-mirror"},
+    )
+    with urllib.request.urlopen(assets_request, timeout=30) as response:
+        assets_html = response.read(1_000_000).decode("utf-8", "replace")
+    prefix = f"/{owner}/{repo}/releases/download/{quoted}/"
+    assets = []
+    for href, name in re.findall(
+        r'href="([^"]+)"[^>]*>\s*<span class="text-bold">([^<]+)</span>',
+        assets_html,
+    ):
+        if not href.startswith(prefix):
+            continue
+        assets.append({"name": name, "browser_download_url": "https://github.com" + href})
+    return {
+        "tag_name": tag,
+        "published_at": published.group(1) if published else "",
+        "assets": assets,
+    }
+
 def get_latest_release(domain, owner, repo):
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+", owner or "") or not re.fullmatch(r"[A-Za-z0-9_.-]+", repo or ""):
+        print(f"Error fetching {domain}/{owner}/{repo}: invalid repository name")
+        return None
+    if domain != "github.com" and not re.fullmatch(r"[A-Za-z0-9.-]+", domain or ""):
+        print(f"Error fetching {domain}/{owner}/{repo}: invalid domain")
+        return None
     try:
         if domain == "github.com":
-            cmd = ["gh", "api", f"repos/{owner}/{repo}/releases/latest"]
-            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-            return json.loads(result.stdout)
-        else:
-            api_url = f"https://{domain}/api/v1/repos/{owner}/{repo}/releases/latest"
-            req = urllib.request.Request(api_url, headers={'User-Agent': 'Mozilla/5.0'})
-            with urllib.request.urlopen(req) as response:
-                return json.loads(response.read().decode('utf-8'))
+            try:
+                cmd = ["gh", "api", f"repos/{owner}/{repo}/releases/latest"]
+                result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+                return json.loads(result.stdout)
+            except FileNotFoundError:
+                return github_latest_from_pages(owner, repo)
+        api_url = f"https://{domain}/api/v1/repos/{owner}/{repo}/releases/latest"
+        req = urllib.request.Request(api_url, headers={"User-Agent": "ps5-payloads-mirror"})
+        with urllib.request.urlopen(req, timeout=30) as response:
+            return json.loads(response.read().decode("utf-8"))
     except Exception as e:
         print(f"Error fetching {domain}/{owner}/{repo}: {e}")
         return None
@@ -106,12 +181,12 @@ def readme_icon(item):
     ext = {"png": "png", "jpeg": "jpg", "svg+xml": "svg"}.get(header.split("/")[-1].split(";")[0])
     if not ext:
         return ""
-    directory = os.path.join(os.path.dirname(os.path.abspath(JSON_FILE)) or ".", "readme-icons")
+    directory = str(ROOT / "farquer" / "icon")
     os.makedirs(directory, exist_ok=True)
     filename = re.sub(r"[^A-Za-z0-9._-]", "_", item.get("name", "icon")) + "." + ext
     with open(os.path.join(directory, filename), "wb") as icon_file:
         icon_file.write(base64.b64decode(encoded))
-    return f'<img src="readme-icons/{filename}" width="36" alt="">'
+    return f'<img src="farquer/icon/{filename}" width="36" alt="">'
 
 def update_readme():
     try:
@@ -156,7 +231,7 @@ Fork 自 https://github.com/itsPLK/ps5-payloads-mirror.
 
 能直连 github 用 ：{V2_URL}
 
-需要 gh-proxy 加速用：{GHPROXY_URL}
+需要 jsDelivr 加速用：{GHPROXY_URL}
 
 ### itsPLK 官方源国内加速
 
@@ -293,8 +368,6 @@ def update_payloads(target_name=None):
         return
     payloads = load_catalog()
 
-    mirror_assets = get_mirror_assets()
-
     updated = False
     for item in payloads:
         if target_name and item.get("name") != target_name:
@@ -304,8 +377,8 @@ def update_payloads(target_name=None):
         if not source:
             # Handle ps5debug case
             if item.get("name") == "ps5debug":
-                if not item["url"].startswith(BASE_URL):
-                     item["url"] = f"{BASE_URL}/{item['filename']}"
+                if not item["url"].startswith(ELF_URL):
+                     item["url"] = f"{ELF_URL}/{item['filename']}"
                      updated = True
             continue
             
@@ -426,7 +499,7 @@ def update_payloads(target_name=None):
                 item.get("version") != new_version or 
                 item.get("filename") != new_filename or
                 item.get("source_direct") != gh_url or
-                new_filename not in mirror_assets
+                not os.path.exists(filepath)
             )
             
             if needs_download:
@@ -487,7 +560,7 @@ def update_payloads(target_name=None):
                     item["name"] = final_name
                     item["version"] = new_version
                     item["filename"] = new_filename
-                    item["url"] = f"{BASE_URL}/{new_filename}"
+                    item["url"] = f"{ELF_URL}/{new_filename}"
                     item["source_direct"] = gh_url
                     item["last_update"] = new_date
                     item["checksum"] = calculate_checksum(filepath)
@@ -503,7 +576,7 @@ def update_payloads(target_name=None):
                 
     for item in payloads:
         if item.get("filename"):
-            item["url"] = f"{BASE_URL}/{item['filename']}"
+            item["url"] = f"{ELF_URL}/{item['filename']}"
             
     payloads.sort(key=lambda x: x.get("last_update", ""), reverse=True)
     payloads = [reorder_item(p) for p in payloads]
@@ -516,8 +589,6 @@ def update_payloads(target_name=None):
         print(f"\nSorted {JSON_FILE} (no new files downloaded).")
         
     update_readme()
-    if not target_name:
-        cleanup_and_record_stats()
 
 if __name__ == "__main__":
     target = sys.argv[1] if len(sys.argv) > 1 else None

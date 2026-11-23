@@ -17,22 +17,19 @@ class CatalogTests(unittest.TestCase):
         image = 'data:image/png;base64,aGVsbG8='
         first, second = {'name':'One'}, {'name':'Two'}
         catalog.assign_icon(first, image)
-        self.assertTrue(Path('icons.json').exists())
-        self.assertFalse(Path('payloads.json').exists())
+        self.assertTrue(Path('farquer/icons.json').exists())
+        self.assertFalse(Path('farquer/payloads.json').exists())
         catalog.assign_icon(second, image)
         self.assertEqual(first['icon_key'], second['icon_key'])
         self.assertEqual(len(catalog.load_icons()), 1)
         first['version'] = '2.0'
         catalog.save_catalog([first, second])
-        saved = json.loads(Path('payloads.json').read_text())
-        self.assertIsInstance(saved, list)
-        self.assertEqual(saved[0]['version'], '2.0')
-        self.assertTrue(all('icon' not in entry for entry in saved))
-        v2 = json.loads(Path('payloads_v2.json').read_text())
-        self.assertEqual(v2['name'], 'PS5 Payloads')
-        self.assertEqual(v2['icons_url'], 'icons.json')
-        self.assertEqual(v2['payloads'][0]['version'], '2.0')
-        self.assertTrue(all('icon' not in entry for entry in v2['payloads']))
+        saved = json.loads(Path('farquer/payloads.json').read_text())
+        self.assertEqual(saved['name'], 'PS5 Payloads')
+        self.assertEqual(saved['icons_url'], 'icons.json')
+        self.assertEqual(saved['payloads'][0]['version'], '2.0')
+        self.assertEqual(list(saved['payloads'][0]), [key for key in catalog.PUBLIC_KEYS if key in saved['payloads'][0]])
+        self.assertTrue(all('icon' not in entry for entry in saved['payloads']))
         self.assertEqual(catalog.payload_icon(first), image)
         first.pop('icon_key'); catalog.save_catalog([first,second])
         self.assertIsNone(catalog.payload_icon(first))
@@ -43,30 +40,31 @@ class CatalogTests(unittest.TestCase):
             entry={'name':'One'}
             with self.assertRaises(ValueError):catalog.assign_icon(entry,image)
             self.assertEqual(entry, {'name':'One'})
-            self.assertFalse(Path('icons.json').exists())
+            self.assertFalse(Path('farquer/icons.json').exists())
     def test_ghproxy_catalog_matches_v2_with_github_urls_prefixed(self):
         payloads = [{
             'name': 'Demo',
             'filename': 'Demo_v1.elf',
-            'url': 'https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/Demo_v1.elf',
+            'url': 'https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/elf/Demo_v1.elf',
             'source': 'https://github.com/someone/demo/releases',
+            'source_direct': 'https://github.com/someone/demo/releases/download/v1/Demo.elf',
+            'firmware': '未声明',
             'note': 'https://example.com/keep',
         }]
         catalog.save_catalog(payloads)
-        v2 = json.loads(Path('payloads_v2.json').read_text())
-        proxied = json.loads(Path('payloads_ghproxy.json').read_text())
-        self.assertEqual(v2['payloads'][0]['url'], payloads[0]['url'])
-        self.assertEqual(proxied['name'], v2['name'])
-        self.assertEqual(proxied['icons_url'], 'icons.json')
+        saved = json.loads(Path('farquer/payloads.json').read_text())
+        proxied = json.loads(Path('farquer/payloads_ghproxy.json').read_text())
+        self.assertEqual(saved['payloads'][0]['url'], payloads[0]['url'])
+        self.assertNotIn('firmware', saved['payloads'][0])
+        self.assertNotIn('note', saved['payloads'][0])
         item = proxied['payloads'][0]
-        self.assertEqual(item['url'], catalog.GH_PROXY + payloads[0]['url'])
-        self.assertEqual(item['source'], catalog.GH_PROXY + payloads[0]['source'])
-        self.assertEqual(item['note'], 'https://example.com/keep')
+        self.assertEqual(item['url'], 'https://cdn.jsdelivr.net/gh/farquer/ps5-payloads-mirror@main/farquer/elf/Demo_v1.elf')
+        self.assertEqual(item['source'], payloads[0]['source'])
+        self.assertEqual(item['source_direct'], payloads[0]['source_direct'])
+        self.assertEqual(catalog.load_catalog()[0]['firmware'], '未声明')
     def test_load_catalog_handles_wrapped_and_bare_formats(self):
-        Path('payloads.json').write_text(json.dumps([{'name': 'One'}]))
-        self.assertEqual(catalog.load_catalog(), [{'name': 'One'}])
-        Path('payloads.json').unlink()
-        Path('payloads_v2.json').write_text(json.dumps({'payloads': [{'name': 'Two'}]}))
+        catalog.CATALOG.parent.mkdir(parents=True, exist_ok=True)
+        catalog.CATALOG.write_text(json.dumps({'payloads': [{'name': 'Two'}]}))
         self.assertEqual(catalog.load_catalog(), [{'name': 'Two'}])
 
 if __name__ == '__main__':unittest.main()

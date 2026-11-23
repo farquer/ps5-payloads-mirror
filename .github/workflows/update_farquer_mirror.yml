@@ -1,15 +1,15 @@
-name: Update itsPLK gh-proxy catalog
+name: Update farquer mirror
 
 on:
   schedule:
-    - cron: '0 16 * * *' # 北京时间 00:00
+    - cron: '0 0 * * *' # Daily at midnight UTC
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  update-itsplk:
+  update-farquer-mirror:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -20,16 +20,21 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Pull latest README
+      - name: Test catalogs
+        run: python3 -m unittest discover -s tests
+
+      - name: Pull latest
         run: git pull --rebase origin main
 
-      - name: Update itsPLK catalog and README
-        run: python update_itsplk.py
+      - name: Run farquer update
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python farquer/update_payloads.py
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
-          git add payloads_itsplk_ghproxy.json README.md readme-icons-itsplk
-          git commit -m "Auto-update itsPLK gh-proxy catalog" || echo "No changes to commit"
+          git add farquer README.md
+          git commit -m "Auto-update farquer payloads" || echo "No changes to commit"
           git pull --rebase origin main
           git push

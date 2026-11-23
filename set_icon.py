@@ -7,7 +7,7 @@ import re
 import urllib.request
 from icon_utils import convert_image_to_data_uri, resolve_icon_source
 
-JSON_FILE = "payloads.json"
+JSON_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "farquer", "payloads.json")
 
 def load_payloads():
     if not os.path.exists(JSON_FILE):

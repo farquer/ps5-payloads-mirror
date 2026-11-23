@@ -1,18 +1,32 @@
-"""Mirror the itsPLK catalog through gh-proxy and refresh its README table."""
+"""Mirror the itsPLK catalog through jsDelivr and refresh its README table."""
 import base64
 import json
+import os
 import re
+import sys
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
-from catalog import GH_PROXY, atomic_json, rewrite_github_values
+ROOT = Path(__file__).resolve().parent
+if ROOT.name in ("farquer", "itsPLK"):
+    ROOT = ROOT.parent
+sys.path.insert(0, str(ROOT))
+from catalog import atomic_json, proxy_catalog
 
 UPSTREAM_V2 = "https://raw.githubusercontent.com/itsPLK/ps5-payloads-mirror/main/payloads_v2.json"
 UPSTREAM_ICONS = "https://raw.githubusercontent.com/itsPLK/ps5-payloads-mirror/main/icons.json"
 ALLOWED_URLS = {UPSTREAM_V2, UPSTREAM_ICONS}
-OUTPUT = Path("payloads_itsplk_ghproxy.json")
-ICON_DIR = Path("readme-icons-itsplk")
-README = Path("README.md")
+OUTPUT = ROOT / "itsPLK" / "payloads_ghproxy.json"
+ICON_DIR = ROOT / "itsPLK" / "icon"
+ELF_DIR = ROOT / "itsPLK" / "elf"
+README = ROOT / "README.md"
+_slug = os.environ.get("GITHUB_REPOSITORY", "farquer/ps5-payloads-mirror")
+MIRROR_OWNER, MIRROR_REPO = _slug.split("/", 1)
+ELF_RAW = f"https://raw.githubusercontent.com/{MIRROR_OWNER}/{MIRROR_REPO}/main/itsPLK/elf"
+RELEASE_URL = re.compile(r"https://github\.com/itsPLK/ps5-payloads-mirror/releases/download/[^/?#]+/[^/?#]+")
+ASSET_HOSTS = {"github.com", "release-assets.githubusercontent.com", "objects.githubusercontent.com"}
+MAX_ELF = 95_000_000
 MAX_BYTES = 8_000_000
 START = "<!-- ITSPLK_START -->"
 END = "<!-- ITSPLK_END -->"
@@ -104,16 +118,17 @@ def cell(value, fallback):
 
 
 def direct_url(url):
-    if isinstance(url, str) and url.startswith(GH_PROXY):
-        return url[len(GH_PROXY):]
+    prefix = "https://gh-proxy.farquer.eu.org/"
+    if isinstance(url, str) and url.startswith(prefix):
+        return url[len(prefix):]
     return url
 
 
 def github_repo(source):
     if not isinstance(source, str):
         return None
-    if source.startswith(GH_PROXY):
-        source = source[len(GH_PROXY):]
+    if source.startswith("https://cdn.jsdelivr.net/gh/"):
+        return None
     match = re.match(r"https://github\.com/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)(?:/|$)", source)
     if not match:
         return None
@@ -267,7 +282,7 @@ def icon_markup(item, icons):
         return "", None
     ext, raw = parsed
     filename = re.sub(r"[^A-Za-z0-9._-]", "_", item.get("name") or "icon") + "." + ext
-    return f'<img src="readme-icons-itsplk/{filename}" width="36" alt="">', (filename, raw)
+    return f'<img src="itsPLK/icon/{filename}" width="36" alt="">', (filename, raw)
 
 
 def render_table(payloads, icons):
@@ -323,19 +338,62 @@ def write_icons(files):
             path.unlink()
 
 
+class AssetRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        parsed = urllib.parse.urlparse(newurl)
+        if parsed.scheme != "https" or parsed.hostname not in ASSET_HOSTS or parsed.username:
+            return None
+        return urllib.request.Request(newurl, headers={"User-Agent": "ps5-payloads-mirror"})
+
+
+def download_elf(url, filename):
+    if not RELEASE_URL.fullmatch(url):
+        print(f"  Skip {filename}: not an itsPLK release asset")
+        return False
+    ELF_DIR.mkdir(parents=True, exist_ok=True)
+    dest = ELF_DIR / filename
+    if dest.exists() and dest.stat().st_size > 0:
+        return True
+    opener = urllib.request.build_opener(AssetRedirect)
+    request = urllib.request.Request(url, headers={"User-Agent": "ps5-payloads-mirror"})
+    try:
+        with opener.open(request, timeout=60) as response:
+            data = response.read(MAX_ELF + 1)
+    except Exception as exc:
+        print(f"  Download failed {filename}: {exc}")
+        return False
+    if len(data) > MAX_ELF:
+        print(f"  Skip {filename}: larger than 95MB")
+        return False
+    dest.write_bytes(data)
+    return True
+
+
 def main():
     catalog = fetch_json(UPSTREAM_V2)
     if not isinstance(catalog, dict) or not isinstance(catalog.get("payloads"), list):
         raise ValueError("Upstream catalog is not a payloads_v2 document")
     icons_doc = fetch_json(UPSTREAM_ICONS)
     icons = icons_doc.get("icons", {}) if isinstance(icons_doc, dict) else {}
-    proxied = rewrite_github_values(catalog)
-    atomic_json(OUTPUT, proxied)
+    mirrored = []
     shown = []
-    for item in proxied["payloads"]:
+    for item in catalog["payloads"]:
+        filename = item.get("filename")
+        if filename:
+            download_elf(item.get("url", ""), filename)
         repo = github_repo(item.get("source"))
         readme_text = fetch_readme(*repo) if repo else ""
-        shown.append(with_project_page(item, readme_text))
+        page = with_project_page(item, readme_text)
+        shown.append(page)
+        copied = dict(item)
+        if filename:
+            copied["url"] = f"{ELF_RAW}/{filename}"
+        mirrored.append(copied)
+    atomic_json(OUTPUT, proxy_catalog({
+        "name": catalog.get("name", "PS5 Payloads"),
+        "icons_url": "icons.json",
+        "payloads": mirrored,
+    }))
     table, files = render_table(shown, icons)
     write_icons(files)
     content = README.read_text(encoding="utf-8") if README.exists() else ""

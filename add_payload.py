@@ -10,11 +10,12 @@ import zipfile
 import tempfile
 import shutil
 from datetime import datetime
-from update_payloads import update_readme, BASE_URL
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "farquer"))
+from update_payloads import update_readme, ELF_URL
 from icon_utils import convert_image_to_data_uri
 
-JSON_FILE = "payloads.json"
-PAYLOADS_DIR = "payloads"
+JSON_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "farquer", "payloads.json")
+PAYLOADS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "farquer", "elf")
 
 def get_repo_info(url):
     match = re.search(r"https?://([^/]+)/([^/]+)/([^/]+)", url)
@@ -222,7 +223,7 @@ def add_payload():
         new_item = {
             "name": repo,
             "filename": filename,
-            "url": f"{BASE_URL}/{filename}",
+            "url": f"{ELF_URL}/{filename}",
             "source": source_url,
             "source_direct": gh_url,
             "description": description,

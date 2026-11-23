@@ -1,4 +1,7 @@
+import sys
 import unittest
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "itsPLK"))
 import update_itsplk
 
 class ItsplkTests(unittest.TestCase):
@@ -44,7 +47,7 @@ class ItsplkTests(unittest.TestCase):
         self.assertIn("**Demo\\|Name**", table)
         self.assertIn("line two", table)
         self.assertIn("| 未声明 |", table)
-        self.assertIn("readme-icons-itsplk/Demo_Name.png", table)
+        self.assertIn("itsPLK/icon/Demo_Name.png", table)
         self.assertNotIn("gh-proxy.farquer.eu.org", table)
         self.assertIn("https://github.com/someone/demo/releases", table)
         self.assertIn("https://github.com/itsPLK/ps5-payloads-mirror/releases/download/payloads-mirror/Demo.elf", table)
