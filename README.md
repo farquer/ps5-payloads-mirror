@@ -10,13 +10,15 @@ Fork 自 https://github.com/itsPLK/ps5-payloads-mirror.
 
 可以在 payload manager 中将本仓库以多源方式添加.
 
-### 本仓库扩展源
+### 本仓库扩展源（直连 github）
 
-能直连 github 用 ：https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/payloads.json
+https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/payloads.json
 
-需要 jsDelivr 加速用：https://cdn.jsdelivr.net/gh/farquer/ps5-payloads-mirror@main/farquer/payloads_ghproxy.json
+### 本仓库扩展源（国内加速）
 
-### itsPLK 官方源国内加速
+https://cdn.jsdelivr.net/gh/farquer/ps5-payloads-mirror@main/farquer/payloads_ghproxy.json
+
+### itsPLK 官方源（国内加速）
 
 https://cdn.jsdelivr.net/gh/farquer/ps5-payloads-mirror@main/itsPLK/payloads_ghproxy.json
 
