@@ -62,6 +62,13 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(item['source'], payloads[0]['source'])
         self.assertEqual(item['source_direct'], payloads[0]['source_direct'])
         self.assertEqual(catalog.load_catalog()[0]['firmware'], '未声明')
+        saved['name'] = 'farquer PS5 Payloads source'
+        proxied['name'] = 'farquer PS5 Payloads source (proxy)'
+        Path('farquer/payloads.json').write_text(json.dumps(saved))
+        Path('farquer/payloads_ghproxy.json').write_text(json.dumps(proxied))
+        catalog.save_catalog(payloads)
+        self.assertEqual(json.loads(Path('farquer/payloads.json').read_text())['name'], 'farquer PS5 Payloads source')
+        self.assertEqual(json.loads(Path('farquer/payloads_ghproxy.json').read_text())['name'], 'farquer PS5 Payloads source (proxy)')
     def test_load_catalog_handles_wrapped_and_bare_formats(self):
         catalog.CATALOG.parent.mkdir(parents=True, exist_ok=True)
         catalog.CATALOG.write_text(json.dumps({'payloads': [{'name': 'Two'}]}))

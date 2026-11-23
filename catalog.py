@@ -47,6 +47,19 @@ def rewrite_github_url(url):
         return f"https://cdn.jsdelivr.net/gh/{owner}/{repo}@{ref}/{path}"
     return url
 
+def catalog_name(path, default="PS5 Payloads"):
+    path = Path(path)
+    if path.exists():
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            data = None
+        if isinstance(data, dict):
+            name = data.get("name")
+            if isinstance(name, str) and name.strip():
+                return name
+    return default
+
 def proxy_catalog(catalog):
     payloads = []
     for item in catalog.get("payloads", []):
@@ -75,13 +88,17 @@ def load_catalog():
 
 def save_catalog(payloads):
     public = [public_item(item) for item in payloads]
+    direct_name = catalog_name(CATALOG)
+    proxy_name = catalog_name(CATALOG_GHPROXY, direct_name)
     wrapped = {
-        "name": "PS5 Payloads",
+        "name": direct_name,
         "icons_url": "icons.json",
         "payloads": public,
     }
     atomic_json(CATALOG, wrapped)
-    atomic_json(CATALOG_GHPROXY, proxy_catalog(wrapped))
+    proxied = proxy_catalog(wrapped)
+    proxied["name"] = proxy_name
+    atomic_json(CATALOG_GHPROXY, proxied)
     meta = {}
     for item in payloads:
         extra = {key: item[key] for key in META_KEYS if item.get(key)}

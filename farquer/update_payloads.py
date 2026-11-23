@@ -237,8 +237,6 @@ Fork 自 https://github.com/itsPLK/ps5-payloads-mirror.
 
 {ITSPLK_URL}
 
-（自建 ph-proxy，速度不快可以尝试换  https://cdn.jsdelivr.net/gh 代理）
-
 ---
 
 ## 注意

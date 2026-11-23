@@ -12,12 +12,13 @@ ROOT = Path(__file__).resolve().parent
 if ROOT.name in ("farquer", "itsPLK"):
     ROOT = ROOT.parent
 sys.path.insert(0, str(ROOT))
-from catalog import atomic_json, proxy_catalog
+from catalog import atomic_json, catalog_name, proxy_catalog
 
 UPSTREAM_V2 = "https://raw.githubusercontent.com/itsPLK/ps5-payloads-mirror/main/payloads_v2.json"
 UPSTREAM_ICONS = "https://raw.githubusercontent.com/itsPLK/ps5-payloads-mirror/main/icons.json"
 ALLOWED_URLS = {UPSTREAM_V2, UPSTREAM_ICONS}
 OUTPUT = ROOT / "itsPLK" / "payloads_ghproxy.json"
+ICONS_JSON = ROOT / "itsPLK" / "icons.json"
 ICON_DIR = ROOT / "itsPLK" / "icon"
 ELF_DIR = ROOT / "itsPLK" / "elf"
 README = ROOT / "README.md"
@@ -389,8 +390,11 @@ def main():
         if filename:
             copied["url"] = f"{ELF_RAW}/{filename}"
         mirrored.append(copied)
+    if not isinstance(icons_doc, dict) or not isinstance(icons, dict):
+        raise ValueError("Upstream icons.json is not an icon catalog")
+    atomic_json(ICONS_JSON, icons_doc)
     atomic_json(OUTPUT, proxy_catalog({
-        "name": catalog.get("name", "PS5 Payloads"),
+        "name": catalog_name(OUTPUT, catalog.get("name") or "PS5 Payloads"),
         "icons_url": "icons.json",
         "payloads": mirrored,
     }))
