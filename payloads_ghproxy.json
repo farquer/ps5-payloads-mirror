@@ -3,6 +3,21 @@
   "icons_url": "icons.json",
   "payloads": [
     {
+      "name": "PS5-Cleanup",
+      "filename": "PS5-Cleanup_v1.3.elf",
+      "url": "https://gh-proxy.farquer.eu.org/https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/PS5-Cleanup_v1.3.elf",
+      "source": "https://gh-proxy.farquer.eu.org/https://github.com/xXBneutzerNameXx/PS5-Cleanup/releases",
+      "source_direct": "https://gh-proxy.farquer.eu.org/https://github.com/xXBneutzerNameXx/PS5-Cleanup/releases/download/v1.3/ps5cleanup_v1.3.elf",
+      "asset_pattern": "\\.elf$",
+      "description": "清理已越狱 PS5 上的残留数据，无需重装系统或恢复出厂。",
+      "firmware": "10.60–13.60（已测试，含 Slim 和 Pro）",
+      "last_update": "2026-11-22",
+      "version": "v1.3",
+      "category": "Utilities & Tools",
+      "checksum": "4ea4a3f9cdef2ecf1760c443d1b77c9196cfbf704b2f60f604ac00fa0663418b",
+      "icon_key": "d5f53c53e211c9b75c1aabd1d0e90ccd64081c98084a51d7cb1349d706bd9e1c"
+    },
+    {
       "name": "orbit-store-ps5",
       "filename": "orbit-store-ps5_v1.9.6.elf",
       "url": "https://gh-proxy.farquer.eu.org/https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/orbit-store-ps5_v1.9.6.elf",
@@ -31,21 +46,6 @@
       "category": "Utilities & Tools",
       "checksum": "3ec636a6b42ceff61ac7aa47e0ed01a41be851da94cfcf3158811995ea868b27",
       "icon_key": "eba585ddab285e3fa4772dcb729428a12a859484416c033659732eaed6659cbc"
-    },
-    {
-      "name": "PS5-Cleanup",
-      "filename": "PS5-Cleanup_v1.2.elf",
-      "url": "https://gh-proxy.farquer.eu.org/https://github.com/farquer/ps5-payloads-mirror/releases/download/payloads-mirror/PS5-Cleanup_v1.2.elf",
-      "source": "https://gh-proxy.farquer.eu.org/https://github.com/xXBneutzerNameXx/PS5-Cleanup/releases",
-      "source_direct": "https://gh-proxy.farquer.eu.org/https://github.com/xXBneutzerNameXx/PS5-Cleanup/releases/download/v1.2/ps5cleanup_v1.2.elf",
-      "asset_pattern": "\\.elf$",
-      "description": "清理已越狱 PS5 上的残留数据，无需重装系统或恢复出厂。",
-      "firmware": "10.60–13.60（已测试，含 Slim 和 Pro）",
-      "last_update": "2026-11-18",
-      "version": "v1.2",
-      "category": "Utilities & Tools",
-      "checksum": "476aa8c1b14d001108f78efec185347310eda969e0a4d75aeb4c377b07e1584f",
-      "icon_key": "d5f53c53e211c9b75c1aabd1d0e90ccd64081c98084a51d7cb1349d706bd9e1c"
     },
     {
       "name": "TITAN-CORE",
