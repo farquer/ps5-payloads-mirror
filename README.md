@@ -20,8 +20,6 @@ Fork 自 https://github.com/itsPLK/ps5-payloads-mirror.
 
 https://cdn.jsdelivr.net/gh/farquer/ps5-payloads-mirror@main/itsPLK/payloads_ghproxy.json
 
-（自建 ph-proxy，速度不快可以尝试换  https://cdn.jsdelivr.net/gh 代理）
-
 ---
 
 ## 注意
