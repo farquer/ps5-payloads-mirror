@@ -1,11 +1,11 @@
 {
-  "PS5-Cleanup": {
-    "asset_pattern": "\\.elf$",
-    "firmware": "10.60–13.60（已测试，含 Slim 和 Pro）"
-  },
   "kraken-mount": {
     "asset_pattern": "\\.elf$",
     "firmware": "未声明"
+  },
+  "PS5-Cleanup": {
+    "asset_pattern": "\\.elf$",
+    "firmware": "10.60–13.60（已测试，含 Slim 和 Pro）"
   },
   "TITAN-CORE": {
     "asset_pattern": "\\.elf$",
