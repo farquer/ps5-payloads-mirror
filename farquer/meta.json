@@ -1,4 +1,8 @@
 {
+  "kstuff-dr": {
+    "asset_pattern": "kstuff-dr.*\\.elf$",
+    "firmware": "<= 13.6"
+  },
   "kraken-mount": {
     "asset_pattern": "\\.elf$",
     "firmware": "未声明"

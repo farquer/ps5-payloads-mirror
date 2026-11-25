@@ -3,6 +3,19 @@
   "icons_url": "icons.json",
   "payloads": [
     {
+      "name": "kstuff-dr",
+      "filename": "kstuff-dr_v1.15-test2a.elf",
+      "url": "https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/elf/kstuff-dr_v1.15-test2a.elf",
+      "source": "https://github.com/farquer/ps5-payloads-mirror",
+      "source_direct": "https://github.com/farquer/ps5-payloads-mirror/blob/main/farquer/elf/kstuff-dr_v1.15-test2a.elf",
+      "description": "kstuff 支持 13.6 调用 a53。",
+      "last_update": "2026-11-25",
+      "version": "v1.15-test2a",
+      "category": "System & Jailbreak",
+      "checksum": "9a48eb056391779899133e64acd9c2138f1181669c931b72d4d1ab3a8314dd91",
+      "icon_key": "8d32ae44b542d5a1b62ba9bd34400c275f5fc82be5e1eed10b6d49cf38b7cf80"
+    },
+    {
       "name": "kraken-mount",
       "filename": "kraken-mount_v0.3.2.elf",
       "url": "https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/elf/kraken-mount_v0.3.2.elf",
