@@ -16,6 +16,19 @@
       "icon_key": "eba585ddab285e3fa4772dcb729428a12a859484416c033659732eaed6659cbc"
     },
     {
+      "name": "PrefBar",
+      "filename": "PrefBar_v0.3.1.elf",
+      "url": "https://cdn.jsdelivr.net/gh/farquer/ps5-payloads-mirror@main/farquer/elf/PrefBar_v0.3.1.elf",
+      "source": "https://github.com/X1NONs/PrefBar/releases",
+      "source_direct": "https://github.com/X1NONs/PrefBar/releases/download/v0.3.1/Prefbar_V0.3.1.elf",
+      "description": "独立的游戏内性能叠加显示",
+      "last_update": "2026-11-24",
+      "version": "v0.3.1",
+      "category": "Utilities & Tools",
+      "checksum": "b876836d4597e28e519ae6bc80df0eeceefde2e8648491c66d4983a779dff134",
+      "icon_key": "399652c823829f1486d9a9f731b462510cd3bfbf70ef57ad7af03dd90b40d06a"
+    },
+    {
       "name": "PS5-Cleanup",
       "filename": "PS5-Cleanup_v1.3.elf",
       "url": "https://cdn.jsdelivr.net/gh/farquer/ps5-payloads-mirror@main/farquer/elf/PS5-Cleanup_v1.3.elf",
@@ -40,19 +53,6 @@
       "category": "Utilities & Tools",
       "checksum": "50f074700fc4f427ae87fb2cb986ad07d633ef01799077953817a6ffded7f91d",
       "icon_key": "3b1755cd01193c8fc83a1e5bf388ba8f785b1f4b675b73a115964971e70a12db"
-    },
-    {
-      "name": "PrefBar",
-      "filename": "PrefBar_v0.3.0.elf",
-      "url": "https://cdn.jsdelivr.net/gh/farquer/ps5-payloads-mirror@main/farquer/elf/PrefBar_v0.3.0.elf",
-      "source": "https://github.com/X1NONs/PrefBar/releases",
-      "source_direct": "https://github.com/X1NONs/PrefBar/releases/download/v0.3.0/Prefbar_V0.3.0.elf",
-      "description": "独立的游戏内性能叠加显示",
-      "last_update": "2026-11-13",
-      "version": "v0.3.0",
-      "category": "Utilities & Tools",
-      "checksum": "e4379590115ef87b2f0310b502321d7da30783536d939bfb1c4c0e511972af30",
-      "icon_key": "399652c823829f1486d9a9f731b462510cd3bfbf70ef57ad7af03dd90b40d06a"
     },
     {
       "name": "any-pad",
