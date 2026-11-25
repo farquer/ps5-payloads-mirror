@@ -17,15 +17,15 @@
     },
     {
       "name": "kraken-mount",
-      "filename": "kraken-mount_v0.3.2.elf",
-      "url": "https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/elf/kraken-mount_v0.3.2.elf",
+      "filename": "kraken-mount_v0.4.0.elf",
+      "url": "https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/elf/kraken-mount_v0.4.0.elf",
       "source": "https://github.com/quer3q/kraken-mount/releases",
-      "source_direct": "https://github.com/quer3q/kraken-mount/releases/download/v0.3.2/kraken-mount.elf",
+      "source_direct": "https://github.com/quer3q/kraken-mount/releases/download/v0.4.0/kraken-mount.elf",
       "description": "从内置 SSD、M.2 和 USB 挂载 PS5 游戏",
-      "last_update": "2026-11-24",
-      "version": "v0.3.2",
+      "last_update": "2026-11-25",
+      "version": "v0.4.0",
       "category": "Utilities & Tools",
-      "checksum": "5b72ea22af0b28dd3522be4a4f10cbec9b5423fbe2e4e8990b45b4d1daeabdde",
+      "checksum": "6c778613b796039230f6690a16e4c04a76069a6b7b6c8030e292f54e904cc401",
       "icon_key": "eba585ddab285e3fa4772dcb729428a12a859484416c033659732eaed6659cbc"
     },
     {
