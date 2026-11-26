@@ -4,15 +4,15 @@
   "payloads": [
     {
       "name": "kstuff",
-      "filename": "kstuff_1.15-dr-test3.elf",
-      "url": "https://cdn.jsdelivr.net/gh/farquer/ps5-payloads-mirror@main/farquer/elf/kstuff_1.15-dr-test3.elf",
+      "filename": "kstuff_1.15-dr-test3-stable.elf",
+      "url": "https://cdn.jsdelivr.net/gh/farquer/ps5-payloads-mirror@main/farquer/elf/kstuff_1.15-dr-test3-stable.elf",
       "source": "https://github.com/farquer/ps5-payloads-mirror",
-      "source_direct": "https://github.com/farquer/ps5-payloads-mirror/blob/main/farquer/elf/kstuff_1.15-dr-test3.elf",
+      "source_direct": "https://github.com/farquer/ps5-payloads-mirror/blob/main/farquer/elf/kstuff_1.15-dr-test3-stable.elf",
       "description": "kstuff 支持 13.6 调用 a53。",
       "last_update": "2026-11-26",
-      "version": "1.15-dr-test3",
+      "version": "1.15-dr-test3-stable",
       "category": "System & Jailbreak",
-      "checksum": "1139fcae59e6094de0fc2a78352af4fa70542d17d057e2935d154c530d4a790a",
+      "checksum": "6c3758c2cc84e3aa7e3c41952371fd04e641647d46d03f8d4bea2ab77c16ecf5",
       "icon_key": "f848267a81be68a60dabf02e963041b52c6cd5a7e14903b2f12552fcc140c96c"
     },
     {
