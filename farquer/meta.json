@@ -1,6 +1,6 @@
 {
-  "kstuff-dr": {
-    "asset_pattern": "kstuff-dr.*\\.elf$",
+  "kstuff": {
+    "asset_pattern": "kstuff.*\\.elf$",
     "firmware": "<= 13.6"
   },
   "kraken-mount": {
@@ -18,6 +18,10 @@
   "TITAN-CORE": {
     "asset_pattern": "\\.elf$",
     "firmware": "未声明"
+  },
+  "PlayTime": {
+    "asset_pattern": "PlayTime.*\\.elf$",
+    "firmware": "随 loader 支持的全部固件"
   },
   "any-pad": {
     "asset_pattern": "\\.elf$",
