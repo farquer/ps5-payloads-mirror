@@ -38,3 +38,23 @@ jobs:
           git commit -m "Auto-update farquer payloads" || echo "No changes to commit"
           git pull --rebase origin main
           git push
+
+      - name: Purge jsDelivr ghproxy JSON
+        run: |
+          python3 - << 'PY'
+          import json
+          import urllib.request
+
+          url = "https://purge.jsdelivr.net/gh/farquer/ps5-payloads-mirror@main/farquer/payloads_ghproxy.json"
+          request = urllib.request.Request(url, headers={"User-Agent": "ps5-payloads-mirror"})
+          with urllib.request.urlopen(request, timeout=60) as response:
+              body = response.read().decode()
+          print(body)
+          data = json.loads(body)
+          if data.get("status") not in ("finished", "queued"):
+              raise SystemExit(1)
+          for info in (data.get("paths") or {}).values():
+              providers = info.get("providers") or {}
+              if info.get("throttled") or not all(providers.values()):
+                  raise SystemExit(1)
+          PY
