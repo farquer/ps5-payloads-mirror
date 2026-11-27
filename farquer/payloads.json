@@ -16,6 +16,19 @@
       "icon_key": "f848267a81be68a60dabf02e963041b52c6cd5a7e14903b2f12552fcc140c96c"
     },
     {
+      "name": "GTAVI-UnlockFPS",
+      "filename": "GTAVI-UnlockFPS_v1.14.elf",
+      "url": "https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/elf/GTAVI-UnlockFPS_v1.14.elf",
+      "source": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases",
+      "source_direct": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases/download/v1.14/GTAVI.UnlockFPS_v1.14.elf",
+      "description": "解除 GTA VI 的 30 帧上限，并调整内部渲染分辨率。",
+      "last_update": "2026-11-26",
+      "version": "v1.14",
+      "category": "Utilities & Tools",
+      "checksum": "9d7b726369407cd1ca1030dfc4bd705d01f27ebf0bf564a7d100c1599db14904",
+      "icon_key": "2cab8cffc2172f3b4326f331dd16e30a96c414fc684390e8d08ae7987cfc22fb"
+    },
+    {
       "name": "kraken-mount",
       "filename": "kraken-mount_v0.4.0.elf",
       "url": "https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/elf/kraken-mount_v0.4.0.elf",
