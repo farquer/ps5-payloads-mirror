@@ -3,6 +3,32 @@
   "icons_url": "icons.json",
   "payloads": [
     {
+      "name": "GTAVI-UnlockFPS",
+      "filename": "GTAVI-UnlockFPS_v1.16.elf",
+      "url": "https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/elf/GTAVI-UnlockFPS_v1.16.elf",
+      "source": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases",
+      "source_direct": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases/download/v1.16/GTAVI.UnlockFPS_v1.16.elf",
+      "description": "解除 GTA VI 的 30 帧上限，并调整内部渲染分辨率。",
+      "last_update": "2026-11-27",
+      "version": "v1.16",
+      "category": "Utilities & Tools",
+      "checksum": "6d294fa504b0526d720d8f3a53804eca5f8f813deae01a9de5588dfe228c03b1",
+      "icon_key": "2cab8cffc2172f3b4326f331dd16e30a96c414fc684390e8d08ae7987cfc22fb"
+    },
+    {
+      "name": "kraken-mount",
+      "filename": "kraken-mount_v0.4.2.elf",
+      "url": "https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/elf/kraken-mount_v0.4.2.elf",
+      "source": "https://github.com/quer3q/kraken-mount/releases",
+      "source_direct": "https://github.com/quer3q/kraken-mount/releases/download/v0.4.2/kraken-mount.elf",
+      "description": "从内置 SSD、M.2 和 USB 挂载 PS5 游戏",
+      "last_update": "2026-11-27",
+      "version": "v0.4.2",
+      "category": "Utilities & Tools",
+      "checksum": "4d4ec0fc2b436d7be3e9d573dc63e6c94c64eac0d72c08aa15fe54446a19201f",
+      "icon_key": "eba585ddab285e3fa4772dcb729428a12a859484416c033659732eaed6659cbc"
+    },
+    {
       "name": "kstuff",
       "filename": "kstuff_1.15-dr-test3-stable.elf",
       "url": "https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/elf/kstuff_1.15-dr-test3-stable.elf",
@@ -14,32 +40,6 @@
       "category": "System & Jailbreak",
       "checksum": "6c3758c2cc84e3aa7e3c41952371fd04e641647d46d03f8d4bea2ab77c16ecf5",
       "icon_key": "f848267a81be68a60dabf02e963041b52c6cd5a7e14903b2f12552fcc140c96c"
-    },
-    {
-      "name": "GTAVI-UnlockFPS",
-      "filename": "GTAVI-UnlockFPS_v1.14.elf",
-      "url": "https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/elf/GTAVI-UnlockFPS_v1.14.elf",
-      "source": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases",
-      "source_direct": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases/download/v1.14/GTAVI.UnlockFPS_v1.14.elf",
-      "description": "解除 GTA VI 的 30 帧上限，并调整内部渲染分辨率。",
-      "last_update": "2026-11-26",
-      "version": "v1.14",
-      "category": "Utilities & Tools",
-      "checksum": "9d7b726369407cd1ca1030dfc4bd705d01f27ebf0bf564a7d100c1599db14904",
-      "icon_key": "2cab8cffc2172f3b4326f331dd16e30a96c414fc684390e8d08ae7987cfc22fb"
-    },
-    {
-      "name": "kraken-mount",
-      "filename": "kraken-mount_v0.4.1.elf",
-      "url": "https://raw.githubusercontent.com/farquer/ps5-payloads-mirror/main/farquer/elf/kraken-mount_v0.4.1.elf",
-      "source": "https://github.com/quer3q/kraken-mount/releases",
-      "source_direct": "https://github.com/quer3q/kraken-mount/releases/download/v0.4.1/kraken-mount.elf",
-      "description": "从内置 SSD、M.2 和 USB 挂载 PS5 游戏",
-      "last_update": "2026-11-26",
-      "version": "v0.4.1",
-      "category": "Utilities & Tools",
-      "checksum": "88d39545728f4202421616a299467545afe7f9b295b636f7bd49b1f2fe1aad1d",
-      "icon_key": "eba585ddab285e3fa4772dcb729428a12a859484416c033659732eaed6659cbc"
     },
     {
       "name": "PrefBar",

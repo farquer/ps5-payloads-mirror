@@ -1,8 +1,4 @@
 {
-  "kstuff": {
-    "asset_pattern": "kstuff.*\\.elf$",
-    "firmware": "<= 13.6"
-  },
   "GTAVI-UnlockFPS": {
     "asset_pattern": "GTAVI\\.UnlockFPS.*\\.elf$",
     "firmware": "已越狱 PS5 / PS5 Pro；GTA VI v01.002.001（PPSA01547、PPSA29660、PPSA38500）"
@@ -10,6 +6,10 @@
   "kraken-mount": {
     "asset_pattern": "\\.elf$",
     "firmware": "未声明"
+  },
+  "kstuff": {
+    "asset_pattern": "kstuff.*\\.elf$",
+    "firmware": "<= 13.6"
   },
   "PrefBar": {
     "asset_pattern": "\\.elf$",
